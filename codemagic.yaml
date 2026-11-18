@@ -6,10 +6,16 @@ workflows:
     environment:
       java: 17
     scripts:
-      - name: Build debug APK
+      - name: Find Gradle wrapper and build APK
         script: |
-          cd CameraSecurityAndroid
+          WRAPPER=$(find . -maxdepth 5 -type f -name gradlew | head -n 1)
+          if [ -z "$WRAPPER" ]; then
+            echo "Could not find gradlew. Add the Gradle Wrapper files to your repository."
+            exit 1
+          fi
+          PROJECT_DIR=$(dirname "$WRAPPER")
+          cd "$PROJECT_DIR"
           chmod +x ./gradlew
           ./gradlew assembleDebug
     artifacts:
-      - CameraSecurityAndroid/app/build/outputs/apk/debug/*.apk
+      - "**/build/outputs/apk/debug/*.apk"

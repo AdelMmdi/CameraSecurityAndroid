@@ -5,10 +5,10 @@ workflows:
     instance_type: mac_mini_m2
     environment:
       java: 17
-    scripts:
-      - name: Build debug APK
-        script: |
-          chmod +x ./gradlew
-          ./gradlew assembleDebug
+    script: |
+      cd CameraSecurityAndroid
+      chmod +x ./gradlew
+      ./gradlew assembleDebug
+
     artifacts:
       - app/build/outputs/apk/debug/*.apk
